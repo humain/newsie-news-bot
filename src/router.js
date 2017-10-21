@@ -1,9 +1,9 @@
 const {ChatConnector, UniversalBot, Prompts } = require('botbuilder');
 const _  = require('lodash');
 const debug = require('debug')('hello-world-bot:router')
-const topHeadLines = require('./dialogs/topHeadLines')
+const topHeadlines = require('./dialogs/topHeadlines')
 
-
+console.log('Top headlines', topHeadlines)
 class Router {
   constructor({ appId, appSecret, newsApiKey }) {
     this.appId = appId;
@@ -48,7 +48,10 @@ class Router {
         matches: /^main menu$/i,
         confirmPrompt: "This will cancel your request. Are you sure?"
     });
-    bot.dialog('topHeadlines', topHeadlines);
+    bot.dialog('topHeadlines', topHeadlines).triggerAction({
+      matches: /^top headlines$/i,
+      confirmPrompt: 'This will cancel your request. Are you sure?'
+    });
     // log any bot errors into the console
     bot.on('error', function (e) {
         console.log('And error ocurred', e);
