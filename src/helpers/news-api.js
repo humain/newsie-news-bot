@@ -1,7 +1,13 @@
 const newsApiKey = process.env.NEWS_API_KEY
-const newsApiUrl = 'https://beta.newsapi.org/v2'
+const newsApiUrl = 'http://beta.newsapi.org/v2'
 const request = require('request')
 const _ = require('lodash')
+
+
+
+function getSources({language='en', categories=[]}, callback){
+
+}
 
 function getTopHeadLines(callback){
   const options = {
@@ -14,13 +20,18 @@ function getTopHeadLines(callback){
       language: 'en',
       country: 'us',
     },
-    url: `${newsApiUrl}/top-headlines`
+    baseUrl: newsApiUrl,
+    url: `/top-headlines`
   }
    request(options, function(error, response, body){
-       if(error) return callback(error)
-       const articles = _.get(body, 'articles', [])
-       callback(null, articles)
+     console.log(error, body.articles)
+     if(error) return callback(error)
+     if (_.isEmpty(body)) return callback(new Error("Empty body"))
+
+     const { articles } = body
+     callback(null, articles)
   })
 }
 
+module.exports.getSources = getSources
 module.exports.getTopHeadLines = getTopHeadLines

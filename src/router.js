@@ -23,6 +23,9 @@ class Router {
     const menuItems = {
       'Top Head Lines': {
         item: 'topHeadlines'
+      },
+      'Set your preferences': {
+        item: 'setPreferences'
       }
     }
     const bot = new UniversalBot(connector, [
@@ -34,7 +37,7 @@ class Router {
     // Display the main menu and start a new request depending on user input.
     bot.dialog("mainMenu", [
         function(session){
-            builder.Prompts.choice(session, "Here are your options:", menuItems);
+            Prompts.choice(session, "Here are your options:", menuItems);
         },
         function(session, results){
             if(results.response){
